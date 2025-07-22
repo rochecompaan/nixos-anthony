@@ -73,3 +73,50 @@ file will contain your user-specific configuration.
 
 }
 ```
+
+### What's the difference between `home.packages` and `programs`?
+
+This is a key concept in Home Manager.
+
+- **`home.packages`**: This is a simple list of packages you want to have
+  available in your user environment. It's the equivalent of
+  `environment.systemPackages` from your `configuration.nix`, but for your user
+  profile. It puts the package in your `PATH`, but doesn't do any extra
+  configuration.
+
+  _Use this for:_ Command-line tools or applications that don't need complex
+  configuration, or for which Home Manager doesn't have a specific module.
+
+  **Example:**
+
+  ```nix
+  home.packages = [
+    pkgs.htop  # A command-line system monitor
+    pkgs.ripgrep # A better grep
+  ];
+  ```
+
+- **`programs`**: This is a collection of special, pre-defined modules within
+  Home Manager that know how to configure specific applications. When you use a
+  `programs` module (e.g., `programs.starship`), Home Manager not only installs
+  the package but also generates the necessary configuration files for it (like
+  `~/.config/starship.toml`).
+
+  _Use this for:_ Any application that has a dedicated module in Home Manager.
+  This is the preferred way to manage software when available. You can see the
+  available options
+  [here](https://nix-community.github.io/home-manager/options.html).
+
+  **Example:**
+
+  ```nix
+  # Manages both the installation and configuration of starship
+  programs.starship.enable = true;
+  ```
+
+#### Simple Rule of Thumb
+
+1.  **Always check first:** See if a `programs.` module exists for the
+    application you want to install.
+2.  **If yes:** Use the `programs.` module.
+3.  **If no:** Add the application to the `home.packages` list.
