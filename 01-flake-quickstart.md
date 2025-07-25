@@ -1,3 +1,12 @@
+> ## Setting the Stage
+>
+> *A snippet from our conversation that led to this lesson.*
+>
+> > **Anthony:** I got all my critical apps installed... So far I'm only adding to `configuration.nix`. I was thinking I would at least move the stuff I added to another file and get that into git, but I wanted to figure out what needed to be split into Home Manager.
+> >
+> > **Me:** Where are you at currently? Do you have a flake yet or are you adding packages to `/etc/nixos/configuration.nix`?
+>
+> ---
 # NixOS Flake Quickstart
 
 This guide shows you how to move your existing `/etc/nixos/configuration.nix` into a git repository and manage it with flakes.
