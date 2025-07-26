@@ -16,6 +16,7 @@ These lessons are driven by Anthony's questions as he explores NixOS.
 - [01 - Flake Quickstart](./01-flake-quickstart.md)
 - [02 - Home Manager](./02-home-manager.md)
 - [03 - Declarative Terminal with Kitty](./03-declarative-terminal-kitty.md)
+- [04 - Managing Secrets with sops-nix](./04-managing-secrets-with-sops.md)
 
 More to come!
 
