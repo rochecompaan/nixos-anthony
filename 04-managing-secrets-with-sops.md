@@ -34,7 +34,7 @@ we'll use a two-repository approach:
 Your public `nixos-config` will reference the private `nixos-secrets` repo as a
 flake input, allowing it to securely access the secrets during a system build.
 
-## Part 1: Getting Started - Install `age` and `sops`
+## Part 1: Getting started - install `age` and `sops`
 
 Before we can create the secrets repo, we need the necessary tools. We'll add
 `age`, `sops`, and `ssh-to-age` to your user environment declaratively.
@@ -59,11 +59,11 @@ home-manager switch --flake .
 
 With the tools installed, we can proceed.
 
-## Part 2: Create the Private `nixos-secrets` Repository
+## Part 2: Create the private `nixos-secrets` repository
 
 This repository will be the secure vault for your secrets.
 
-### 1. Create and Clone the Private Repository
+### 1. Create and clone the private repository
 
 Go to GitHub and create a new **private** repository named `nixos-secrets`. Then,
 clone it to your local machine.
@@ -73,13 +73,13 @@ git clone git@github.com:<your-username>/nixos-secrets.git
 cd nixos-secrets
 ```
 
-### 2. A Quick Word on `age`
+### 2. A quick word on `age`
 
 For encrypting secrets, we'll use **`age`**. It's a modern, simple, and secure
 encryption tool designed to do one thing well: encrypt files with public keys.
 It's a fantastic, user-friendly alternative to GPG for this use case.
 
-### 3. Gather Your Public Keys
+### 3. Gather your public keys
 
 A secret encrypted with `sops` can have multiple recipients. For our setup, we
 need two:
@@ -112,7 +112,7 @@ host's identity is self-contained in its SSH key, which NixOS already manages.
 ssh-to-age -i /etc/ssh/ssh_host_ed25519_key.pub
 ```
 
-### 4. Create the `.sops.yaml` Configuration File
+### 4. Create the `.sops.yaml` configuration file
 
 This file tells `sops` which keys are allowed to encrypt files. In your
 `nixos-secrets` repo, create a `.sops.yaml` file. We'll use YAML anchors (`&`)
@@ -131,7 +131,7 @@ creation_rules:
           - *host_nixos
 ```
 
-### 5. Create and Encrypt `secrets.yaml`
+### 5. Create and encrypt `secrets.yaml`
 
 Now, let's create the file for our secrets. `sops` will automatically use the
 rules from `.sops.yaml` to encrypt it for both you and the host.
@@ -149,7 +149,7 @@ syncthing_device_id: "YOUR-SECRET-SYNCTHING-ID-GOES-HERE"
 
 Save and exit. If you `cat secrets.yaml`, you'll see it's now encrypted.
 
-### 6. Commit and Push to Your Private Repo
+### 6. Commit and push to your private repo
 
 ```bash
 git add .sops.yaml secrets.yaml
@@ -157,11 +157,11 @@ git commit -m "Initial secrets"
 git push
 ```
 
-## Part 3: Integrate `sops-nix` into Your Public Config
+## Part 3: Integrate `sops-nix` into your public config
 
 Head back to your public `nixos-config` repository.
 
-### 1. Add `sops-nix` and `nixos-secrets` to Your `flake.nix`
+### 1. Add `sops-nix` and `nixos-secrets` to your `flake.nix`
 
 Update your `flake.nix` to include the new inputs and the `sops-nix` module.
 
@@ -227,17 +227,17 @@ Add the following to your `configuration.nix`:
 
 This is much cleaner, as the host's identity is self-contained.
 
-## Part 4: The Workflow
+## Part 4: The workflow
 
 Your secrets management workflow is now:
 
-1.  **To Edit Secrets:**
+1.  **To edit secrets:**
 
     - `cd` into your private `nixos-secrets` repository.
     - Run `sops secrets.yaml`. Your personal `age` key lets you edit.
     - `git commit` and `git push` your changes.
 
-2.  **To Apply Secrets:**
+2.  **To apply secrets:**
     - `cd` into your public `nixos-config` repository.
     - Run `nix flake update --update-input nixos-secrets` to pull the latest
       secrets.
