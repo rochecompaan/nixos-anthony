@@ -1,12 +1,13 @@
 > ## Setting the Stage
 >
-> *A snippet from our conversation that led to this lesson.*
+> _A snippet from our conversation that led to this lesson._
 >
 > > **Anthony:** My question at this point, the docs... did not lead me to Home Manager. So now maybe some of the stuff I installed in the system should have been in Home Manager, but it is slightly vague as to which things.
 > >
 > > **Me:** I think NixOS learn is careful not to throw too many new concepts at the user and many users get quite far without home manager. Do you have a sense of how to get started with home manager or can I give you a basic starting point?
 >
 > ---
+
 # Home Manager
 
 Official Home Manager docs: https://nix-community.github.io/home-manager/
@@ -46,6 +47,18 @@ Here's how to add Home Manager to your `flake.nix`:
   };
 }
 ```
+
+### Initial Activation
+
+After adding the Home Manager module to your `flake.nix`, you must run a system
+rebuild. This step activates the Home Manager service for your system.
+
+```bash
+sudo nixos-rebuild switch --flake .
+```
+
+This command ensures that NixOS is aware of Home Manager. After this initial
+rebuild, you can use the `home-manager` command for user-specific changes.
 
 ### Create `home.nix`
 
