@@ -107,6 +107,10 @@ an `age` key. This is preferable to creating a separate `age` key for the host
 because it means we don't have to manage or back up a new private key; the
 host's identity is self-contained in its SSH key, which NixOS already manages.
 
+> **Note:** For the host's SSH key to exist, you must have the OpenSSH service
+> enabled in your `configuration.nix`. If you haven't already, add this line:
+> `services.openssh.enable = true;`
+
 ```bash
 # Get the host's public SSH key and convert it to an age key
 ssh-to-age -i /etc/ssh/ssh_host_ed25519_key.pub
@@ -227,7 +231,20 @@ Add the following to your `configuration.nix`:
 
 This is much cleaner, as the host's identity is self-contained.
 
-## Part 4: The workflow
+## Part 4: Using your secrets
+
+With the configuration in place, you can now reference your secrets anywhere in
+your NixOS modules. The values are made available under `config.sops.secrets`.
+
+For example, to use the Syncthing ID you created, you would reference it in your
+configuration like this:
+
+```nix
+# in configuration.nix or any other module
+services.syncthing.settings.devices.my-phone.id = config.sops.secrets.syncthing_device_id;
+```
+
+## Part 5: The workflow
 
 Your secrets management workflow is now:
 
