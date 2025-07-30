@@ -17,6 +17,7 @@ These lessons are driven by Anthony's questions as he explores NixOS.
 - [02 - Home Manager](./02-home-manager.md)
 - [03 - Declarative Terminal with Kitty](./03-declarative-terminal-kitty.md)
 - [04 - Managing Secrets with sops-nix](./04-managing-secrets-with-sops.md)
+- [05 - Testing, Rollbacks, and Other NixOS Superpowers](./05-testing-and-rollbacks.md)
 
 More to come!
 
