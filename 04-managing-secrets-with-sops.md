@@ -208,10 +208,11 @@ Update your `flake.nix` to include the new inputs and the `sops-nix` module.
 
 ### 2. Configure `sops-nix` in `configuration.nix`
 
-Now, we'll configure `sops-nix`. Instead of managing a separate `age` key for the
-host, we'll tell `sops-nix` to use the host's existing SSH key.
-
-Add the following to your `configuration.nix`:
+Now, we'll configure `sops-nix`. We need to do three things:
+1.  Tell it where to find the secrets file.
+2.  Tell it to use the host's SSH key for decryption.
+3.  Explicitly declare which secrets we want to make available to our Nix
+    configuration.
 
 ```nix
 # configuration.nix
@@ -224,8 +225,9 @@ Add the following to your `configuration.nix`:
   sops.defaultSopsFile = "${inputs.nixos-secrets}/secrets.yaml";
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
-  # This makes the secret available to the system
+  # Declare the secrets you want to use.
   sops.secrets.syncthing_device_id = {};
+  # Add a line here for every secret you want to access.
 }
 ```
 
