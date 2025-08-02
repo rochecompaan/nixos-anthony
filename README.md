@@ -16,8 +16,9 @@ These lessons are driven by Anthony's questions as he explores NixOS.
 - [01 - Flake Quickstart](./01-flake-quickstart.md)
 - [02 - Home Manager](./02-home-manager.md)
 - [03 - Declarative Terminal with Kitty](./03-declarative-terminal-kitty.md)
-- [04 - Managing Secrets with sops-nix](./04-managing-secrets-with-sops.md)
-- [05 - Testing, Rollbacks, and Other NixOS Superpowers](./05-testing-and-rollbacks.md)
+- [04 - Managing Secrets with Plain Nix Imports](./04-managing-secrets-with-nix.md)
+- [05 - Managing Secrets with sops-nix](./05-managing-secrets-with-sops.md)
+- [06 - Testing, Rollbacks, and Other NixOS Superpowers](./06-testing-and-rollbacks.md)
 
 More to come!
 
