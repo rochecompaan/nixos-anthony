@@ -155,3 +155,33 @@ This is a key concept in Home Manager.
     application you want to install.
 2.  **If yes:** Use the `programs.` module.
 3.  **If no:** Add the application to the `home.packages` list.
+
+### Managing Environment Variables
+
+A common task is setting environment variables, like `EDITOR`, to customize your
+shell. While you can set these in `configuration.nix`, the correct place for
+user-specific variables is in Home Manager. This ensures they are set correctly
+in your shell's startup files (e.g., `.zshrc`).
+
+Here's how to set `vim` as your default editor for Zsh:
+
+```nix
+# in home.nix
+{ pkgs, ... }:
+
+{
+  # ... other settings
+
+  # Tell Home Manager to manage your Zsh configuration
+  programs.zsh.enable = true;
+
+  # Set the EDITOR variable for your session
+  home.sessionVariables = {
+    EDITOR = "vim";
+  };
+}
+```
+
+By enabling `programs.zsh.enable`, you allow Home Manager to correctly manage
+your `.zshrc` and other shell files. The `home.sessionVariables` are then
+guaranteed to be sourced correctly when you open a new terminal.
