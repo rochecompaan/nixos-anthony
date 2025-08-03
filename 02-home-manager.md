@@ -14,9 +14,11 @@ Official Home Manager docs: https://nix-community.github.io/home-manager/
 
 ## Adding Home Manager to your flake
 
-Here's how to add Home Manager to your `flake.nix`:
+Here's how to add Home Manager to your `flake.nix`. This example includes all
+the inputs we've used in the lessons so far for a complete, working reference.
 
 ```nix
+# flake.nix
 {
   description = "My NixOS configuration";
 
@@ -28,11 +30,13 @@ Here's how to add Home Manager to your `flake.nix`:
     };
   };
 
-  outputs = { self, nixpkgs, home-manager }: {
+  outputs = inputs@{ self, nixpkgs, home-manager, ... }: {
     nixosConfigurations = {
       # Replace "hostname" with your actual hostname
       hostname = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        # This is the crucial part that passes flake inputs to your modules
+        specialArgs = { inherit inputs; };
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
@@ -46,6 +50,15 @@ Here's how to add Home Manager to your `flake.nix`:
     };
   };
 }
+```
+
+Also, ensure the first line of your `configuration.nix` is updated to accept
+the `inputs` argument:
+
+```nix
+# configuration.nix
+{ config, pkgs, inputs, ... }:
+# ...
 ```
 
 ### Initial Activation

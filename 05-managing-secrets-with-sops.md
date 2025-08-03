@@ -43,7 +43,52 @@ Save the file and push it to your private repository.
 
 Now, let's configure `sops-nix` to use this secret.
 
-### 1. Configure `sops-nix`
+### 1. Update `flake.nix`
+
+Your `flake.nix` needs to have all the correct inputs and pass them down to your
+modules. Here is a complete, working example:
+
+```nix
+# flake.nix
+{
+  description = "My NixOS configuration";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-25.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-secrets = {
+      url = "git+ssh://git@github.com/<your-username>/nixos-secrets.git";
+      flake = false;
+    };
+  };
+
+  outputs = inputs@{ self, nixpkgs, home-manager, sops-nix, nixos-secrets, ... }: {
+    nixosConfigurations = {
+      # Replace "hostname" with your actual hostname
+      hostname = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        # This is the crucial part that passes flake inputs to your modules
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.home-manager
+          sops-nix.nixosModules.sops
+          # ...
+        ];
+      };
+    };
+  };
+}
+```
+
+### 2. Configure `sops-nix` in `configuration.nix`
 
 In your `configuration.nix`, we will tell `sops-nix` about the new secret and use
 a special option, `neededForUsers`, which makes the secret available early in
@@ -66,7 +111,7 @@ the boot process.
 }
 ```
 
-### 2. Assign the Password to the User
+### 3. Assign the Password to the User
 
 Now, you can use the path to the secret file to set the user's password.
 
