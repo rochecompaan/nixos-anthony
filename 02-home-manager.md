@@ -163,7 +163,27 @@ shell. While you can set these in `configuration.nix`, the correct place for
 user-specific variables is in Home Manager. This ensures they are set correctly
 in your shell's startup files (e.g., `.zshrc`).
 
-Here's how to set `vim` as your default editor for Zsh:
+**Prerequisite: Set Your Default Shell**
+
+Home Manager can only configure your shell if it's set as your user's default.
+This is a system-level setting, so it must be configured in your main
+`configuration.nix`.
+
+```nix
+# in configuration.nix
+users.users.anthony = {
+  # ... other settings
+  shell = pkgs.zsh;
+};
+```
+
+Since this is a system-wide change, you will need to apply it with
+`sudo nixos-rebuild switch --flake .`.
+
+**Configure in Home Manager**
+
+Once Zsh is your default shell, you can configure it with Home Manager to set
+your environment variables.
 
 ```nix
 # in home.nix

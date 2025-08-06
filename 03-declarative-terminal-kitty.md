@@ -65,6 +65,7 @@ below. We will also add `pkgs.fira-code` to `home.packages`.
 
   programs.kitty = {
     enable = true;
+    shellIntegration.enableZshIntegration = true;
     font = {
       name = "Fira Code";
       size = 14;
