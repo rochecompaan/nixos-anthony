@@ -112,7 +112,7 @@ It's the ultimate "undo" button.
 You can see all your past generations with:
 
 ```bash
-nixos-rebuild --list-generations
+nixos-rebuild list-generations
 ```
 
 ### The Ultimate Safety Net: The Boot Menu
