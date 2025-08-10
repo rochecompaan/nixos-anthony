@@ -87,7 +87,7 @@ This file will contain all your ZSH-related settings.
     };
 
     # Extra setup and keybindings
-    initExtra = ''
+    initContent = ''
       PROMPT_EOL_MARK=\'\'
       eval "$(zoxide init zsh)"
 
